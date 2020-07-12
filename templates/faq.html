@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/tagify.css')}}">
+<script src = "{{url_for('static', filename = 'jsonNotJSON/users.json')}}""></script>
+<script src = "{{url_for('static', filename = 'jsonNotJSON/tags.json')}}"></script>
+<script src="{{url_for('static', filename = 'js/tagify.js')}}"></script>
+{% if res %}
+<script>
+	var resLikes = '{{request.form["likesJSON"]}}'
+	var resDislikes = '{{request.form["dislikesJSON"]}}'
+	var userId = '{{request.form["userId"]}}'
+</script>
+{% endif %}
+
+
+
+{% endblock %}
+
+{% block body %}
+<script src="{{url_for('static', filename = 'js/jquery-autocomplete.js')}}"></script>
+<div class = 'container'>
+	<h3>How to use the recommender system?</h3>
+	<p>Firstly, you need to enter your username in VNDB so the system can get your public library. Alternatively, you can press to "I don't have a VNDB account". But in this case you have to enter at least one relevant tag.</p>
+	<p>Secondly, you need to enter relevant tags and/or unrelevant tags. This step is completely optional for users of VNDB. The recommender system will give you VNs with at least one relevant tag in result and exclude VNs with at least one unrelevant tag. You can set how much inpact on story certain relevant tag has.</p>
+	<p>In third step, choose how important your library is (only for VNDB users). If you want something more new, not like something you previously readed, set it to minimum. If you want something like you already readed, but with tag conditions, set it to maximum.</p>
+	<p>In fourth step, set maximum spoiler level. Example: you enter "Horror" tag as a relevant tag and maximum spoiler level to minimum. Then you will never get Doki Doki Literature Club as a recommendation.</p>
+	<p>In fifth step, you can choose your prefered a language.</p>
+	<p>And press Submit button. Enjoy your recommendations!</p>
+	<h3>Where do you get all the data for the recommendation system?</h3>
+	<p>Data provided by <a href="vndb.org">VNDB</a> under the terms of the <a href="https://vndb.org/d17#3">Open Database License</a>.</p>
+	<h3>Who are you?</h3>
+	<p>My name is Gleb Kosyrev. I'm currently a student of MSTU STANKIN, IT and computational systems department. This recommendation system is my bachelor's degree final project. I'm really glad that my scientific advisor accepted this theme so I can make this system for you.</p>
+	<p>Wanna contact with me? You can write anything to this mail: fakemirror11@gmail.com, or check my <a href = https://github.com/Berserker-Of-Akihabara>GitHub</a>.</p>
+</div>
+
+<script src="{{url_for('static', filename = 'js/tagsInputControl.js')}}"></script>
+{% if res %}
+<script>
+	restoreTags(resLikes, resDislikes, userId, tagifyLikes, tagifyDislikes, tagifyUsers);
+</script>
+{% endif %}
+{% endblock %}

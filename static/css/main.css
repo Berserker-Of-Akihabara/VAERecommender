@@ -1,0 +1,157 @@
+.nsfw_show{
+    text-decoration: underline;
+}
+
+.buttonCustom {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+*:focus {outline:none}
+
+.buttonBlack {
+    background-color: white;
+    color: black;
+    border: 1px solid #555555;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: white;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    min-width: 128px;
+    border: 1px solid black;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border: 1px solid black;
+    background-color: #DDD;
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border: 1px solid black;
+    background-color: #DDD;
+    cursor: pointer;
+  }
+
+  .slider::-webkit-slider-thumb:hover {
+    background-color: magenta;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    transition-property: background-color, border;
+  }
+  
+  .slider::-moz-range-thumb:hover {
+    background-color: magenta;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    transition-property: background-color, border;
+  }
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+.buttonMenu{
+  background: white;
+}
+
+.buttonMenu:hover {
+  background-color: #48689a;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  transition-property: background-color, color;
+}
+
+.buttonSubmitDisabled
+{
+  background-color: #DDD;
+  color: black;
+  border: 1px solid #555555;
+}
+
+.buttonSubmitEnabled
+{
+  background-color: white;
+  color: black;
+  border: 1px solid #555555;
+}
+
+.buttonSubmitEnabled:hover 
+{
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  transition-property: background-color, color;
+}
+
+.buttonReset:hover
+{
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  transition-property: background-color, color;
+}
+
+.fixed-footer {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+  padding: 2px;
+  background-color: white;
+  border: 1px solid #DDD;
+}
+
+#noUser{
+  margin-top: 2.5em;
+}
+
+.disabledSlider
+{
+  background: #DDD;
+}

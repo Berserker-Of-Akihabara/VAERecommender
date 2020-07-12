@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/tagify.css')}}">
+<script src = "{{url_for('static', filename = 'jsonNotJSON/users.json')}}?r={{randomNumber}}""></script>
+<script src = "{{url_for('static', filename = 'jsonNotJSON/tags.json')}}?r={{randomNumber}}"></script>
+<script src = "{{url_for('static', filename = 'jsonNotJSON/notAdultTags.json')}}?r={{randomNumber}}"></script>
+<script src="{{url_for('static', filename = 'js/tagify.js')}}"></script>
+{% if res %}
+<script>
+	var resLikes = '{{request.form["likesJSON"]}}'
+	var resDislikes = '{{request.form["dislikesJSON"]}}'
+	var userId = '{{request.form["userId"]}}'
+	var isAdult = '{{request.form["isAdult"]}}' == 'true'
+	var requestedLanguage = '{{request.form["requestedLanguage"]}}'
+</script>
+{% endif %}
+
+
+
+{% endblock %}
+
+{% block body %}
+<div class = 'container'>
+	<span>Username</span>
+	<div class = 'row'>
+		<div class="userSearchContainer col-md-6">
+			
+			<input type="text" id = 'usersInput' class='tagify__userInput' autocomplete="new-password" class='tagify--outside'>
+		</div>
+		<div class="userSearchContainer col-md-6">
+			<input type ="checkbox" id="noUser" onclick="checkNoUserState()"> I don't have a VNDB account</input>
+		</div>
+	</div>
+	<div class = 'row'>
+		<div class="tagSearchContainer col-md-6">
+			<span>Relevant tags</span><br>
+			<input type="text" id = 'likesInput' class='tagify--outside'>
+		</div>
+		<div class="tagSearchContainer col-md-6">
+			<span>Unrelevant tags</span><br>
+			<input type="text" id = 'dislikesInput' class='tagify--outside'>
+		</div>
+	</div>
+	<div id="hideMe">
+		<input type ="checkbox" id="isAdult" name="isAdult" onclick="toggleAdultContentSwitch()"> I'm an adult and I want to see explicit content</input><br>
+	</div>
+	<form id = 'recommenderForm' action = '/recommender' method="POST" onsubmit="onSubmitForm()">
+		<span>Importance of previous readings</span><br>
+		{% if res %}
+		<input type="range" class = "slider w-25" name="VAEWeight" id="VAEWeightInput" min=".1" max=".9" step = '.1' value="{{ request.form['VAEWeight'] }}" ><br>
+		{% else %}
+		<input type="range" class = "slider w-25" name="VAEWeight" id="VAEWeightInput" min=".1" max=".9" step = '.1' value="0.5"><br>
+		{% endif %}
+		<input type="hidden" name="VAEWeight" id="VAEWeightInputClone">
+		<span>Maximal spoiler level</span><br>
+		{% if res %}
+		<input type="range" class = "slider w-25" name="spoilerLevel" id="spoilerLevelInput" min=".0" max="2.0" step = '.1' value="{{ request.form['spoilerLevel'] }}"><br>
+		{% else %}
+		<input type="range" class = "slider w-25" name="spoilerLevel" id="spoilerLevelInput" min=".0" max="2.0" step = '.1' value=".0"><br>
+		{% endif %}
+		<span>Language</span><br>
+		{{selectLanguageHTML | safe}}<br><br>
+
+
+		{% if res %}
+		<input id="submitButton" type="button" value="Submit" onclick="sendData()" disabled="disabled" class='buttonCustom buttonBlack buttonSubmitEnabled'>
+		{% else %}
+		<input id="submitButton" type="button" value="Submit" onclick="sendData()" disabled="disabled" class='buttonCustom buttonBlack buttonSubmitDisabled'>
+		{% endif %}
+		<input type="button" id='resetButton' value='Reset' onclick="resetForm()" class='buttonCustom buttonBlack buttonReset'>
+	</form>
+	<br>
+	{% if res != 1 %}
+		{% for item in res %}
+			<div class = 'row rounded border border-dark mx-auto mb-3'>
+				<div class="col-md-3">
+					{% if not item.img_nsfw %}
+					<img src = "https://s2.vndb.org/cv/{{item.image[-2:]}}/{{item.image}}.jpg">
+					{% else %}
+					<span class="nsfw_show" onclick="showCoverArt(this, 'https://s2.vndb.org/cv/{{item.image[-2:]}}/{{item.image}}.jpg')" text-color = 'red'>Show</span><br>
+					{% endif %}
+				</div>
+				<div class="col-md-9">
+					<a href="https://vndb.org/v{{item.id}}" target="_blank">{{item.title}}</a><br>
+					<small>{{item.length}}</small><br>
+					<span>{{item.desc | safe}}</span><br>
+					<i>Languages:</i><br>
+					<span>{{item.languages}}</span>
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+<script src="{{url_for('static', filename = 'js/tagsInputControl.js')}}"></script>
+{% if res %}
+<script>
+	restoreTags(resLikes, resDislikes, userId, tagifyLikes, tagifyDislikes, tagifyUsers);
+</script>
+{% endif %}
+<script>
+	cloneValue();
+	$("#VAEWeightInput").on("input change", function() {cloneValue()});
+</script>
+{% endblock %}
